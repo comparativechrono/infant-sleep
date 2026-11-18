@@ -3,7 +3,8 @@
 #
 # Usage:  ./run_all.sh [path/to/infant_sleep_preprocessed.mat] [path/to/Agenoria/data]
 # Defaults: data/nyu/infant_sleep_preprocessed.mat and data/agenoria/data (see data/README.md).
-# Takes roughly 15-30 minutes on a laptop; the periodograms of the 700 NYU infants dominate.
+# Takes roughly 20-40 minutes on a laptop; the periodograms of the 700 NYU infants and the
+# surrogate cohorts of the shift screen dominate.
 set -euo pipefail
 cd "$(dirname "$0")"
 
@@ -37,6 +38,14 @@ $PY $A/paper_figures.py "$MAT" results figures/paper
 
 echo "== Numbers quoted in the paper"
 $PY $A/paper_numbers.py results > results/paper_numbers.md
+
+echo "== Letter: sudden shifts in clock time"
+$PY $A/jetlag_screen.py results results/jetlag 20
+$PY $A/jetlag_profiles.py "$MAT" results 3
+$PY $A/jetlag_profiles.py "$MAT" results 2.5
+$PY $A/jetlag_simulate.py "$MAT" results 30
+$PY $A/letter_numbers.py results > results/jetlag/letter_numbers.md
+$PY $A/letter_figures.py "$MAT" results figures/letter
 
 echo "== Tests"
 $PY $A/test_nyu_rhythm.py
