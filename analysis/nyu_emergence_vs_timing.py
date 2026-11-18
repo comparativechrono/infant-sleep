@@ -23,7 +23,7 @@ import pandas as pd
 from matplotlib import font_manager
 from scipy import stats
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from paperfig import headline, lettered, save  # noqa: E402
+from figsave import headline, save  # noqa: E402
 
 
 OUT = Path(sys.argv[1])
@@ -148,7 +148,7 @@ for k, key in enumerate(OUTCOMES):
     num = lambda v, sign=False: (("+" if sign and v > 0 else "") + f"{v:.0f}").replace("-", "−") \
         if round(v) != 0 else "0"
     rho_s = f"{row.spearman_rho:.2f}".replace("-", "−") if abs(row.spearman_rho) >= 0.005 else "0.00"
-    ax.annotate(lettered(f"{OUTCOMES[key]} at 12 months"), xy=(0, 1), xycoords="axes fraction", xytext=(0, 40),
+    ax.annotate(f"{OUTCOMES[key]} at 12 months", xy=(0, 1), xycoords="axes fraction", xytext=(0, 40),
                 textcoords="offset points", fontsize=11, fontweight="semibold", color=INK, va="bottom")
     ax.annotate(f"ρ = {rho_s}, adjusted p = {row.p_holm_primary:.2g}\n"
                 f"Slope {num(row.theil_sen_min_per_10_days, True)} min per 10 days later "
@@ -168,5 +168,5 @@ headline(fig, L / W, 1 - 0.82 / H,
          fontsize=9, color=INK_2, ha="left", va="top", linespacing=1.45)
 headline(fig, L / W, 0.18 / H, "Data: Liu et al., arXiv:1904.04780 (2019), infant_sleep_preprocessed.mat.",
          fontsize=7.5, color=MUTED, ha="left", va="bottom")
-save(fig, OUT / "nyu_emergence_vs_timing.png", DPI, "Figure5", SURFACE)
+save(fig, OUT / "nyu_emergence_vs_timing.png", DPI, SURFACE)
 print("figure saved")

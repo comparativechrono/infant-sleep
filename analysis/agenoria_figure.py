@@ -16,7 +16,7 @@ import numpy as np
 import pandas as pd
 from matplotlib import font_manager
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from paperfig import headline, lettered, save  # noqa: E402
+from figsave import headline, save  # noqa: E402
 
 
 SURFACE, INK, INK_2, MUTED = "#fcfcfb", "#0b0b0b", "#52514e", "#898781"
@@ -82,7 +82,7 @@ def main(ag_dir, nyu_dir):
     ax.yaxis.grid(True, color=HAIRLINE, lw=0.8)
     ax.set_axisbelow(True)
     ax.legend(loc="upper left", frameon=False, fontsize=8.5, ncol=2, labelcolor=INK)
-    ax.set_title(lettered("How strong the 24-hour sleep rhythm is, by age"), loc="left", fontsize=11,
+    ax.set_title("How strong the 24-hour sleep rhythm is, by age", loc="left", fontsize=11,
                  fontweight="bold", color=INK, pad=10)
 
     # B: where each infant's half-plateau age falls among the NYU infants
@@ -108,12 +108,12 @@ def main(ag_dir, nyu_dir):
     bx.set_ylabel("NYU infants")
     bx.yaxis.grid(True, color=HAIRLINE, lw=0.8)
     bx.set_axisbelow(True)
-    bx.set_title(lettered("Age at half-plateau: the NYU distribution and the two Agenoria infants"), loc="left",
+    bx.set_title("Age at half-plateau: the NYU distribution and the two Agenoria infants", loc="left",
                  fontsize=11, fontweight="bold", color=INK, pad=10)
 
     headline(fig, 0.08, 0.012, "Data: Liu et al., arXiv:1904.04780 (2019); Agenoria, Jiuguang Wang "
              "(github.com/jiuguangw/Agenoria), CC BY-NC-SA 4.0.", fontsize=7.5, color=MUTED)
-    print("wrote", save(fig, ag_dir / "agenoria_vs_nyu.png", 220, "Figure6", SURFACE))
+    print("wrote", save(fig, ag_dir / "agenoria_vs_nyu.png", 220, SURFACE))
 
 
 if __name__ == "__main__":
