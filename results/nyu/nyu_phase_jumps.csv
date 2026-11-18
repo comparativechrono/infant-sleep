@@ -1,0 +1,12 @@
+infant,start_day,end_day,span_days,shift_h,type,baseline_phase_h,unlogged_days_in_3_before
+233,84,87,4,-5.22,round trip,3.96,1
+262,251,255,5,-4.58,round trip,3.37,0
+264,98,116,19,7.93,round trip,2.25,0
+324,146,160,15,6.73,round trip,1.8,0
+336,255,258,4,5.14,round trip,1.13,0
+446,71,86,16,11.78,round trip,3.68,0
+459,231,234,4,4.66,round trip,1.25,1
+576,272,276,5,5.02,round trip,0.59,0
+594,413,420,8,5.44,round trip,1.77,0
+631,147,151,5,4.7,round trip,0.71,0
+631,357,369,13,3.97,round trip,0.66,0

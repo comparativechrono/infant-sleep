@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+.DS_Store
+# raw data are not redistributed; see data/README.md
+data/*
+!data/README.md
+# intermediate arrays written by the Agenoria chart check
+results/agenoria/states_*.npy
+results/agenoria/_*.npy
