@@ -21,6 +21,7 @@ sliding Lomb–Scargle periodograms of 700 infants from the NYU infant sleep dat
 | `figures/paper/` | The figures as submitted: Figures 1–6 and S1–S3, each as a vector PDF (for submission) and a 300-dpi PNG |
 | `figures/exploratory/` | Annotated figures made during the analysis, including the Agenoria first-year sleep chart |
 | `data/` | Not included; `data/README.md` says where to get both datasets |
+| `LICENSE` | The licence for the code (MIT No Attribution) |
 
 ## Reproducing everything
 
@@ -80,6 +81,15 @@ back to the matplotlib default otherwise.
 - **Sleep timing.** Each night's main sleep period (sleep bouts bridged across wakes of up to 60 min,
   4–16 h long, midpoint between 18:00 and 09:00), with a circular screen for jumps in sleep phase
   of 4 h or more, such as travel across time zones.
+
+## Licence
+
+The code — everything in `analysis/`, plus `run_all.sh` and `requirements.txt` — is released under
+the [MIT No Attribution licence](LICENSE) (SPDX `MIT-0`), an OSI-approved open-source licence with
+no conditions: anyone may use, copy, change, merge, publish, distribute, sublicense or sell it, for
+any purpose, without having to credit the authors. If you use it in published work, a citation of
+the paper is welcome but not required. The licences of the data and of the outputs made from them
+are set out below.
 
 ## Data sources and licences
 
