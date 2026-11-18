@@ -1,0 +1,6 @@
+threshold_h,episodes,infants,positive,negative,null_mean,null_lo95,null_hi95,episodes_from90,infants_from90,positive_from90,negative_from90,null_from90_mean,null_from90_lo95,null_from90_hi95,n_surrogates
+2.0,181,136,91,90,37.0,31,42,121,94,67,54,28.05,22,33,20
+2.5,75,64,35,40,7.7,2,11,49,42,27,22,6.0,2,9,20
+3.0,44,38,25,19,2.0,0,4,32,26,21,11,1.15,0,3,20
+3.5,20,19,14,6,0.8,0,3,15,14,11,4,0.3,0,1,20
+4.0,11,10,9,2,0.1,0,1,9,8,8,1,0.0,0,0,20

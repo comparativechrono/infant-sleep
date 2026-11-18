@@ -1,9 +1,13 @@
 # infant-sleep
 
-Analysis code, result tables and figures for the manuscript
+Analysis code, result tables and figures for two manuscripts in preparation for the *Journal of
+Biological Rhythms*:
 
 > **Emergence of the 24-hour sleep–wake rhythm in individual infants: periodogram analysis of
-> parent-logged sleep from 700 infants.** In preparation for the *Journal of Biological Rhythms*.
+> parent-logged sleep from 700 infants.** (Original Research)
+
+> **How quickly do infants adjust to a sudden shift in clock time? Evidence from parent-logged
+> sleep.** (Letter; see [Second study](#second-study-sudden-shifts-in-clock-time-letter) below)
 
 The study times, infant by infant, when a 24-hour rhythm emerges in parent-logged sleep, using
 sliding Lomb–Scargle periodograms of 700 infants from the NYU infant sleep dataset
@@ -17,8 +21,10 @@ sliding Lomb–Scargle periodograms of 700 infants from the NYU infant sleep dat
 | `results/nyu/` | Per-infant and per-week tables for the NYU cohort, plus the saved periodogram and timing arrays (`.npz`) |
 | `results/agenoria/` | Results for the two Agenoria infants, including their actograms and periodograms (`agenoria_actograms.npz`) |
 | `results/robustness/` | Surrogate tests, definition sensitivity and free-running detection power |
+| `results/jetlag/` | Second study: sudden shifts in sleep timing, null model, simulations and `letter_numbers.md` |
 | `results/paper_numbers.md` | Every number quoted in the paper, regenerated from the tables above |
 | `figures/paper/` | The figures as submitted: Figures 1–6 and S1–S3, each as a vector PDF (for submission) and a 300-dpi PNG |
+| `figures/letter/` | Second study: Figure 1 and Figure S1 of the Letter, as vector PDF and 300-dpi PNG |
 | `figures/exploratory/` | Annotated figures made during the analysis, including the Agenoria first-year sleep chart |
 | `data/` | Not included; `data/README.md` says where to get both datasets |
 | `LICENSE` | The licence for the code (MIT No Attribution) |
@@ -81,6 +87,32 @@ back to the matplotlib default otherwise.
 - **Sleep timing.** Each night's main sleep period (sleep bouts bridged across wakes of up to 60 min,
   4–16 h long, midpoint between 18:00 and 09:00), with a circular screen for jumps in sleep phase
   of 4 h or more, such as travel across time zones.
+
+## Second study: sudden shifts in clock time (Letter)
+
+The jump screen of the first paper flags days on which an infant's sleep timing suddenly moved by
+several hours, as it would after a flight across time zones. The Letter asks how often such shifts
+occur and how infant sleep re-aligns afterwards.
+
+| Step | Script | Writes |
+| --- | --- | --- |
+| Screen at 2–4 h and estimate chance episodes (block-bootstrap null, 20 surrogate cohorts) | `jetlag_screen.py` | `results/jetlag/episodes_<T>h.csv`, `screen_counts.csv` |
+| Day-by-day profile and re-alignment measures of each episode | `jetlag_profiles.py` | `results/jetlag/episode_metrics_<T>h.csv`, `trajectories_<T>h.csv` |
+| Simulated shifts of known size, duration and re-alignment speed in real records | `jetlag_simulate.py` | `results/jetlag/simulation_runs.csv`, `simulation_summary.csv` |
+| Numbers quoted in the Letter | `letter_numbers.py` | `results/jetlag/letter_numbers.md` |
+| Figures | `letter_figures.py` | `figures/letter/` |
+
+- **Episodes.** Daily sleep phase at least 3 h from its mean over the previous 14 days on 3 or more
+  consecutive usable days (the detector of `nyu_sleep_timing.py`). The main set is episodes starting
+  at 90 days of age or later; earlier ones are 4 times as frequent per day and probably reflect
+  development rather than travel.
+- **Chance episodes.** Each infant's day-to-day variation around a smooth trend, resampled in 7-day
+  blocks with episode days set aside, gives surrogate records with the same logging pattern.
+- **Re-alignment.** Deviations are measured from a straight-line baseline through the 4 weeks before
+  onset and weeks 5–8 after the end, so slow developmental drift is not counted. The measures
+  (abrupt onset, change while shifted, time constant, abrupt end) are checked on simulated shifts.
+
+`analysis/journal_style.py` holds the figure style shared by both papers' journal figures.
 
 ## Licence
 
