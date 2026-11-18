@@ -33,15 +33,7 @@ $PY $A/agenoria_actograms.py "$AGEN" results/agenoria
 unset FIG_DIR
 
 echo "== Figures, journal versions (figures/paper)"
-export PAPER_FIGURES=figures/paper
-$PY $A/nyu_population_heatmap.py "$MAT" figures/exploratory/nyu_700_infants_sleep_by_age.png
-$PY $A/nyu_rhythm_figures.py "$MAT" results/nyu
-$PY $A/nyu_timing_figures.py "$MAT" results/nyu
-$PY $A/nyu_emergence_vs_timing.py results/nyu
-$PY $A/agenoria_figure.py results/agenoria results/nyu
-$PY $A/agenoria_sleep_chart.py "$AGEN" results/agenoria
-$PY $A/agenoria_actograms.py "$AGEN" results/agenoria
-unset PAPER_FIGURES
+$PY $A/paper_figures.py "$MAT" results figures/paper
 
 echo "== Numbers quoted in the paper"
 $PY $A/paper_numbers.py results > results/paper_numbers.md

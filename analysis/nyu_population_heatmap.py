@@ -15,7 +15,7 @@ from matplotlib import font_manager
 from matplotlib.colors import LinearSegmentedColormap
 from scipy.io import loadmat
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from paperfig import headline, lettered, save  # noqa: E402
+from figsave import headline, save  # noqa: E402
 
 
 d = loadmat(sys.argv[1])["data"]                     # (730 days, 144 bins, 700 infants)
@@ -75,7 +75,7 @@ for a in (ax, ax2):
     a.tick_params(axis="x", which="minor", length=1.8)
 ax.tick_params(axis="y", colors=AXIS, labelcolor=INK, labelsize=8.5, length=3, width=0.6)
 
-for a, title in ((ax, lettered("Share of logged infants asleep")), (ax2, lettered("Infants logged"))):
+for a, title in ((ax, "Share of logged infants asleep"), (ax2, "Infants logged")):
     a.annotate(title, xy=(0, 1), xycoords="axes fraction", xytext=(0, 24), textcoords="offset points",
                fontsize=11, fontweight="semibold", color=INK, va="bottom", ha="left")
 ax.annotate("Time of day (local clock)", xy=(0.5, 0), xycoords="axes fraction", xytext=(0, -26),
@@ -104,5 +104,5 @@ headline(fig, L / W, 0.22 / H,
          "Data: Liu, Cheng, Brooks, Mackey, Heeger, Tabak & Fernandez-Granda, arXiv:1904.04780 "
          "(2019), infant_sleep_preprocessed.mat.",
          fontsize=7.5, color=MUTED, ha="left", va="bottom")
-save(fig, OUT, DPI, "Figure1", SURFACE)
+save(fig, OUT, DPI, SURFACE)
 print("saved", OUT, f"{W * DPI:.0f}x{H * DPI:.0f}px; min/max infants per day {n_per_day.min()}/{n_per_day.max()}")

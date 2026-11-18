@@ -18,7 +18,7 @@ from matplotlib import font_manager
 from matplotlib.lines import Line2D
 from matplotlib.patches import Patch
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from paperfig import headline, save  # noqa: E402
+from figsave import headline, save  # noqa: E402
 
 
 DATA = Path(sys.argv[1])
@@ -188,5 +188,5 @@ headline(fig, L / W, 0.22 / H,
          "This chart is shared under the same licence.",
          fontsize=7.5, color=MUTED, ha="left", va="bottom")
 
-path = save(fig, OUT / "agenoria_sleep_first_year.png", DPI, "FigureS2", SURFACE)
+path = save(fig, OUT / "agenoria_sleep_first_year.png", DPI, SURFACE)
 print("saved", path, f"{W * DPI:.0f}x{H * DPI:.0f}px")

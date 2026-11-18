@@ -18,7 +18,7 @@ from matplotlib import font_manager
 from matplotlib.colors import LinearSegmentedColormap
 from scipy.io import loadmat
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from paperfig import headline, lettered, save  # noqa: E402
+from figsave import headline, save  # noqa: E402
 
 
 MAT, OUT = sys.argv[1], Path(sys.argv[2])
@@ -58,7 +58,7 @@ def month_axis(ax, label=True):
 
 
 def title(ax, text, dy=8):
-    ax.annotate(lettered(text), xy=(0, 1), xycoords="axes fraction", xytext=(0, dy),
+    ax.annotate(text, xy=(0, 1), xycoords="axes fraction", xytext=(0, dy),
                 textcoords="offset points", fontsize=11, fontweight="semibold", color=INK,
                 va="bottom", ha="left")
 
@@ -155,7 +155,7 @@ headline(fig, L / W, 1 - 0.82 / H,
          fontsize=9, color=INK_2, ha="left", va="top", linespacing=1.45)
 headline(fig, L / W, 0.18 / H, "Data: Liu et al., arXiv:1904.04780 (2019), infant_sleep_preprocessed.mat.",
          fontsize=7.5, color=MUTED, ha="left", va="bottom")
-save(fig, OUT / "nyu_24h_rhythm_emergence.png", DPI, "Figure3", SURFACE)
+save(fig, OUT / "nyu_24h_rhythm_emergence.png", DPI, SURFACE)
 plt.close(fig)
 print(f"fig1: population half-level day {cross}; t50 median {t50_med:.0f} IQR {t50_q1:.0f}-{t50_q3:.0f}")
 
@@ -215,7 +215,7 @@ for k, (lab, inf, t50_i, plat) in enumerate(picks):
     else:
         ttl = f"{lab} emerger: infant {inf}"
         sub = f"Half its plateau by day {t50_i:.0f}; line marks that day"
-    ax.annotate(lettered(ttl), xy=(0, 1), xycoords="axes fraction", xytext=(0, 22 + 12 * sub.count("\n")),
+    ax.annotate(ttl, xy=(0, 1), xycoords="axes fraction", xytext=(0, 22 + 12 * sub.count("\n")),
                 textcoords="offset points",
                 fontsize=10.5, fontweight="semibold", color=INK, va="bottom")
     ax.annotate(sub, xy=(0, 1), xycoords="axes fraction", xytext=(0, 9), textcoords="offset points",
@@ -235,6 +235,6 @@ headline(fig, L2 / W2, 1 - 0.82 / H2,
          fontsize=9, color=INK_2, ha="left", va="top", linespacing=1.45)
 headline(fig, L2 / W2, 0.18 / H2, "Data: Liu et al., arXiv:1904.04780 (2019), infant_sleep_preprocessed.mat.",
          fontsize=7.5, color=MUTED, ha="left", va="bottom")
-save(fig, OUT / "nyu_example_actograms.png", DPI, "Figure2", SURFACE)
+save(fig, OUT / "nyu_example_actograms.png", DPI, SURFACE)
 plt.close(fig)
 print("fig2 picks:", picks)

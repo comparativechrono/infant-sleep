@@ -21,7 +21,7 @@ from matplotlib.colors import LinearSegmentedColormap, LogNorm
 from matplotlib.lines import Line2D
 from matplotlib.patches import Patch
 
-from paperfig import headline, save  # noqa: E402
+from figsave import headline, save  # noqa: E402
 from rhythm import load_sessions, lomb_scargle, minute_states, sleep_fraction
 
 DATA, OUT = Path(sys.argv[1]), Path(sys.argv[2])
@@ -73,6 +73,14 @@ def analyse(code, label, bday):
 
 results = [analyse(*b) for b in BABIES]
 VMAX = float(np.ceil(np.nanmax([np.nanmax(r["heat"]) for r in results]) * 10) / 10)
+
+# actogram codes (0 = no record, 1 = awake, 2 = asleep) and periodograms, for paper_figures.py
+arrays = {"periods_h": PERIODS}
+for r in results:
+    tag = r["label"].replace(" ", "").lower()
+    arrays.update({f"{tag}_act": r["act"].astype(np.uint8), f"{tag}_heat": r["heat"],
+                   f"{tag}_daycare_day": np.int64(r["daycare"])})
+np.savez_compressed(OUT / "agenoria_actograms.npz", **arrays)
 
 # ---- per-window summary table ----
 rows = []
@@ -203,7 +211,7 @@ for r in results:
              fontsize=7.5, color=MUTED, ha="left", va="bottom")
 
     name = f"actogram_periodogram_{r['label'].lower().replace(' ', '')}.png"
-    save(fig, OUT / name, DPI, "FigureS3" if r["label"] == "Baby 1" else "FigureS4", SURFACE)
+    save(fig, OUT / name, DPI, SURFACE)
     plt.close(fig)
     np.save(OUT / f"_act_{r['label'].replace(' ', '')}.npy", r["act"])      # for verification
     np.save(OUT / f"_heat_{r['label'].replace(' ', '')}.npy", r["heat"])

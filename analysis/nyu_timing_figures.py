@@ -17,7 +17,7 @@ from matplotlib.colors import LinearSegmentedColormap
 from matplotlib.patches import Rectangle
 from scipy.io import loadmat
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from paperfig import headline, lettered, save  # noqa: E402
+from figsave import headline, save  # noqa: E402
 
 
 MAT, OUT = sys.argv[1], Path(sys.argv[2])
@@ -61,7 +61,7 @@ def style(ax):
 
 
 def title(ax, text, sub=None):
-    ax.annotate(lettered(text), xy=(0, 1), xycoords="axes fraction", xytext=(0, 26 if sub else 8),
+    ax.annotate(text, xy=(0, 1), xycoords="axes fraction", xytext=(0, 26 if sub else 8),
                 textcoords="offset points", fontsize=11, fontweight="semibold", color=INK, va="bottom")
     if sub:
         ax.annotate(sub, xy=(0, 1), xycoords="axes fraction", xytext=(0, 8), textcoords="offset points",
@@ -141,7 +141,7 @@ title(axB, "Infants keep their timing", f"Each dot an infant (n = {ok.sum()}); S
 pairs = [("6mo", "12mo", "6 → 12 months"), ("12mo", "18mo", "12 → 18 months"),
          ("18mo", "24mo", "18 → 24 months"), ("6mo", "24mo", "6 → 24 months")]
 tx = (L + H_B * 0.95 + 0.75) / W
-fig.text(tx, (BOTTOM + H_B) / H + 26 / 72 / H, lettered("Mid-sleep rank correlation"), fontsize=11,
+fig.text(tx, (BOTTOM + H_B) / H + 26 / 72 / H, "Mid-sleep rank correlation", fontsize=11,
          fontweight="semibold", color=INK, va="bottom")
 fig.text(tx, (BOTTOM + H_B) / H + 8 / 72 / H, "Spearman ρ between the same infants' medians",
          fontsize=8.5, color=INK_2, va="bottom")
@@ -163,7 +163,7 @@ headline(fig, L / W, 1 - 0.82 / H,
          fontsize=9, color=INK_2, ha="left", va="top", linespacing=1.45)
 headline(fig, L / W, 0.18 / H, "Data: Liu et al., arXiv:1904.04780 (2019), infant_sleep_preprocessed.mat.",
          fontsize=7.5, color=MUTED, ha="left", va="bottom")
-save(fig, OUT / "nyu_sleep_timing_by_age.png", DPI, "Figure4", SURFACE)
+save(fig, OUT / "nyu_sleep_timing_by_age.png", DPI, SURFACE)
 plt.close(fig)
 print(f"fig1 saved; stability 6v12 rho {rho:.2f} n {ok.sum()}")
 
@@ -207,6 +207,6 @@ headline(fig, L2 / W2, 1 - 0.82 / H2,
          fontsize=9, color=INK_2, ha="left", va="top", linespacing=1.45)
 headline(fig, L2 / W2, 0.18 / H2, "Data: Liu et al., arXiv:1904.04780 (2019), infant_sleep_preprocessed.mat.",
          fontsize=7.5, color=MUTED, ha="left", va="bottom")
-save(fig, OUT / "nyu_phase_jump_gallery.png", DPI, "FigureS1", SURFACE)
+save(fig, OUT / "nyu_phase_jump_gallery.png", DPI, SURFACE)
 plt.close(fig)
 print("fig2 saved")
