@@ -44,6 +44,7 @@ $PY $A/jetlag_screen.py results results/jetlag 20
 $PY $A/jetlag_profiles.py "$MAT" results 3
 $PY $A/jetlag_profiles.py "$MAT" results 2.5
 $PY $A/jetlag_simulate.py "$MAT" results 30
+$PY $A/jetlag_individual.py "$MAT" results 80
 $PY $A/letter_numbers.py results > results/jetlag/letter_numbers.md
 $PY $A/letter_figures.py "$MAT" results figures/letter
 
