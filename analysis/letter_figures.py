@@ -14,7 +14,7 @@ import pandas as pd
 from matplotlib.cm import ScalarMappable
 from matplotlib.colors import LinearSegmentedColormap, Normalize
 from matplotlib.lines import Line2D
-from matplotlib.patches import Patch
+from matplotlib.patches import Patch, Rectangle
 from scipy.io import loadmat
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -120,8 +120,8 @@ def figure1():
 
 
 def figureS1():
-    fig = new_fig(2.55)
-    by, bh = 0.5, 1.75
+    fig = new_fig(4.85)
+    by, bh = 2.8, 1.75                                  # top row: A-C; bottom row: D-E
     # A: observed episodes from day 90 against the null model, by threshold
     axA = ax_at(fig, 0.5, by, 1.75, bh)
     x = np.arange(len(screen))
@@ -139,7 +139,7 @@ def figureS1():
 
     # B: detection of simulated shifts
     axB = ax_at(fig, 2.85, by, 1.75, bh)
-    styles = [(np.inf, INK, "No re-alignment"), (10.0, BLUE, "Time constant 10 days"), (4.0, ORANGE, "Time constant 4 days")]
+    styles = [(np.inf, INK, "none"), (10.0, BLUE, "10 days"), (4.0, ORANGE, "4 days")]
     sizes = sorted(sim["size_h"].unique())
     for tau, col, lab in styles:
         y = [100 * sim[(sim.size_h == s) & (sim.true_tau_d == tau)].detected.mean() for s in sizes]
@@ -147,9 +147,11 @@ def figureS1():
     axB.set_xticks(sizes)
     axB.set_xlabel("Size of simulated shift (h)")
     axB.set_ylabel("Detected (%)")
-    axB.set_ylim(0, 105)
-    axB.legend(loc="lower right", handlelength=1.2, frameon=True, framealpha=1, edgecolor="none",
-               borderpad=0.2)
+    axB.set_ylim(0, 138)
+    axB.set_yticks([0, 20, 40, 60, 80, 100])
+    axB.spines["left"].set_bounds(0, 100)
+    axB.legend(loc="upper center", ncol=3, title="Time constant", handlelength=1.0, columnspacing=0.8,
+               handletextpad=0.4, borderaxespad=0.0)
 
     # C: time constants, simulated and observed
     axC = ax_at(fig, 5.25, by, 1.5, bh)
@@ -176,10 +178,54 @@ def figureS1():
     axC.set_xticklabels(["Sim.\n4 days", "Sim.\n10 days", "Observed"], linespacing=1.0)
     axC.set_xlim(-0.6, 2.6)
     axC.set_ylabel("Estimated time constant (days)")
+
+    # D: share of the shift left at the end, observed and with one common time constant (simulated)
+    spread = pd.read_csv(RES / "jetlag" / "individual_spread.csv")
+    sets = np.load(RES / "jetlag" / "individual_best_sets.npy")
+    best = spread.iloc[(spread.median_share_left - S.frac_left.median()).abs().argmin()]
+    by2, bh2 = 0.5, 1.6
+    axD = ax_at(fig, 0.5, by2, 2.3, bh2)
+    obs = S["frac_left"].to_numpy(dtype=float)
+    rng = np.random.default_rng(2)
+    axD.scatter(rng.uniform(-0.2, 0.2, obs.size), obs, s=9, color=INK, linewidths=0, zorder=3)
+    axD.plot([-0.3, 0.3], [np.median(obs)] * 2, color=INK, linewidth=1.2)
+    pool = sets.ravel()
+    q = np.percentile(pool, [2.5, 25, 50, 75, 97.5])
+    axD.add_patch(Rectangle((0.72, q[1]), 0.56, q[3] - q[1], facecolor=BAND, edgecolor="none"))
+    axD.plot([0.72, 1.28], [q[2]] * 2, color=BLUE, linewidth=1.2)
+    axD.plot([1, 1], [q[0], q[1]], color=BLUE, linewidth=0.8)
+    axD.plot([1, 1], [q[3], q[4]], color=BLUE, linewidth=0.8)
+    for yy in (0, 1):
+        axD.axhline(yy, color=INK_2, linewidth=0.5, linestyle=(0, (2, 2)), zorder=0)
+    axD.set_xticks([0, 1])
+    axD.set_xticklabels(["Observed\nepisodes", f"One speed, simulated\n(time constant {best.tau0:g} days)"],
+                        linespacing=1.0)
+    axD.set_xlim(-0.55, 1.6)
+    axD.set_ylim(-0.1, 1.6)
+    axD.set_yticks([0, 0.5, 1, 1.5])
+    axD.set_ylabel("Share of shift left at the end")
+
+    # E: spread across episodes, observed against one common time constant at each value
+    axE = ax_at(fig, 3.65, by2, 3.1, bh2)
+    labels = ["none" if not np.isfinite(t) else f"{t:g}" for t in spread.tau0]
+    xs = np.arange(len(spread))
+    axE.errorbar(xs, spread.sd_median, yerr=np.vstack([spread.sd_median - spread.sd_lo95, spread.sd_hi95 - spread.sd_median]),
+                 fmt="o", color=BLUE, markersize=3, elinewidth=0.8, capsize=2, capthick=0.8, label="One speed, simulated")
+    sd_obs = float(np.std(obs, ddof=1))
+    axE.axhline(sd_obs, color=INK, linewidth=1.0, linestyle=(0, (4, 2)), label="Observed")
+    axE.set_xticks(xs)
+    axE.set_xticklabels(labels)
+    axE.set_xlabel("Common time constant (days)")
+    axE.set_ylabel("SD of share left across episodes")
+    axE.set_ylim(0, 0.45)
+    axE.legend(loc="lower left", handlelength=1.6, frameon=True, framealpha=1, edgecolor="none", borderpad=0.2)
+
     H = fig.get_size_inches()[1]
     letter(fig, 0.02, H - 0.05, "A")
     letter(fig, 2.37, H - 0.05, "B")
     letter(fig, 4.72, H - 0.05, "C")
+    letter(fig, 0.02, by2 + bh2 + 0.3, "D")
+    letter(fig, 3.05, by2 + bh2 + 0.3, "E")
     save_figure(fig, OUT, "FigureS1")
 
 

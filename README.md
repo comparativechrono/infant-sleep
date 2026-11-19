@@ -21,7 +21,7 @@ sliding Lomb–Scargle periodograms of 700 infants from the NYU infant sleep dat
 | `results/nyu/` | Per-infant and per-week tables for the NYU cohort, plus the saved periodogram and timing arrays (`.npz`) |
 | `results/agenoria/` | Results for the two Agenoria infants, including their actograms and periodograms (`agenoria_actograms.npz`) |
 | `results/robustness/` | Surrogate tests, definition sensitivity and free-running detection power |
-| `results/jetlag/` | Second study: sudden shifts in sleep timing, null model, simulations and `letter_numbers.md` |
+| `results/jetlag/` | Second study: sudden shifts in sleep timing, null model, simulations, differences between episodes, `letter_numbers.md` and `individual_summary.md` |
 | `results/paper_numbers.md` | Every number quoted in the paper, regenerated from the tables above |
 | `figures/paper/` | The figures as submitted: Figures 1–6 and S1–S3, each as a vector PDF (for submission) and a 300-dpi PNG |
 | `figures/letter/` | Second study: Figure 1 and Figure S1 of the Letter, as vector PDF and 300-dpi PNG |
@@ -99,7 +99,8 @@ occur and how infant sleep re-aligns afterwards.
 | Screen at 2–4 h and estimate chance episodes (block-bootstrap null, 20 surrogate cohorts) | `jetlag_screen.py` | `results/jetlag/episodes_<T>h.csv`, `screen_counts.csv` |
 | Day-by-day profile and re-alignment measures of each episode | `jetlag_profiles.py` | `results/jetlag/episode_metrics_<T>h.csv`, `trajectories_<T>h.csv` |
 | Simulated shifts of known size, duration and re-alignment speed in real records | `jetlag_simulate.py` | `results/jetlag/simulation_runs.csv`, `simulation_summary.csv` |
-| Numbers quoted in the Letter | `letter_numbers.py` | `results/jetlag/letter_numbers.md` |
+| Do episodes differ in speed beyond measurement error? Each observed episode re-created with one common time constant; repeat episodes in the same infant; baseline traits | `jetlag_individual.py` | `results/jetlag/individual_summary.md`, `individual_spread.csv`, `individual_traits.csv`, `individual_sim_runs.csv` |
+| Numbers quoted in the Letter | `letter_numbers.py`, `jetlag_individual.py` | `results/jetlag/letter_numbers.md`, `individual_summary.md` |
 | Figures | `letter_figures.py` | `figures/letter/` |
 
 - **Episodes.** Daily sleep phase at least 3 h from its mean over the previous 14 days on 3 or more
@@ -111,6 +112,12 @@ occur and how infant sleep re-aligns afterwards.
 - **Re-alignment.** Deviations are measured from a straight-line baseline through the 4 weeks before
   onset and weeks 5–8 after the end, so slow developmental drift is not counted. The measures
   (abrupt onset, change while shifted, time constant, abrupt end) are checked on simulated shifts.
+- **Differences between episodes.** Each observed episode is re-created 80 times in other infants'
+  records with its own size and duration and one common time constant. If one speed for all infants
+  plus measurement error explained the data, the spread of the share of the shift left at the end
+  across observed episodes would be typical of sets of re-created episodes; it is larger at every
+  common time constant from 3 days to none. Repeat episodes in the same infant are compared with
+  episodes shuffled among infants.
 
 `analysis/journal_style.py` holds the figure style shared by both papers' journal figures.
 
