@@ -22,11 +22,12 @@ sliding Lomb–Scargle periodograms of 700 infants from the NYU infant sleep dat
 | `results/agenoria/` | Results for the two Agenoria infants, including their actograms and periodograms (`agenoria_actograms.npz`) |
 | `results/robustness/` | Surrogate tests, definition sensitivity and free-running detection power |
 | `results/jetlag/` | Second study: sudden shifts in sleep timing, null model, simulations and `letter_numbers.md` |
+| `results/adult/` | Second study: the same analysis applied to adults' public wearable records (Open Humans), the files analysed (`openhumans_manifest.csv`) and `adult_numbers.md` |
 | `results/paper_numbers.md` | Every number quoted in the paper, regenerated from the tables above |
 | `figures/paper/` | The figures as submitted: Figures 1–6 and S1–S3, each as a vector PDF (for submission) and a 300-dpi PNG |
-| `figures/letter/` | Second study: Figure 1 and Figure S1 of the Letter, as vector PDF and 300-dpi PNG |
+| `figures/letter/` | Second study: Figures 1–2 and S1–S2 of the Letter, as vector PDF and 300-dpi PNG |
 | `figures/exploratory/` | Annotated figures made during the analysis, including the Agenoria first-year sleep chart |
-| `data/` | Not included; `data/README.md` says where to get both datasets |
+| `data/` | Not included; `data/README.md` says where to get the datasets |
 | `LICENSE` | The licence for the code (MIT No Attribution) |
 
 ## Reproducing everything
@@ -101,6 +102,9 @@ occur and how infant sleep re-aligns afterwards.
 | Simulated shifts of known size, duration and re-alignment speed in real records | `jetlag_simulate.py` | `results/jetlag/simulation_runs.csv`, `simulation_summary.csv` |
 | Numbers quoted in the Letter | `letter_numbers.py` | `results/jetlag/letter_numbers.md` |
 | Figures | `letter_figures.py` | `figures/letter/` |
+| Adults: download the public Fitbit and Oura records from Open Humans and convert them to the infants' format | `adult_data.py` | `data/openhumans/`, `results/adult/adult_records.npz` (not committed) |
+| Adults: the same screen, null model, measures and simulations; night-to-night scatter in both groups; clock changes in records with known time zones | `adult_screen.py` | `results/adult/*.csv` |
+| Adults: numbers and figures | `adult_numbers.py`, `adult_figures.py` | `results/adult/adult_numbers.md`, `figures/letter/Figure2*`, `FigureS2*` |
 
 - **Episodes.** Daily sleep phase at least 3 h from its mean over the previous 14 days on 3 or more
   consecutive usable days (the detector of `nyu_sleep_timing.py`). The main set is episodes starting
@@ -111,6 +115,11 @@ occur and how infant sleep re-aligns afterwards.
 - **Re-alignment.** Deviations are measured from a straight-line baseline through the 4 weeks before
   onset and weeks 5–8 after the end, so slow developmental drift is not counted. The measures
   (abrupt onset, change while shifted, time constant, abrupt end) are checked on simulated shifts.
+- **Adults.** Public wearable records from Open Humans members (Fitbit main sleep; Oura sleep periods
+  with the UTC offset of each night) are converted to one noon-to-noon row of 10-minute bins per
+  night in local clock time and run through the same code, without the age restriction. Where the
+  offset is known, every change of the clock by 2.5 h or more is measured as the lag of local-time
+  sleep behind the new clock, relative to the 14 nights before departure.
 
 `analysis/journal_style.py` holds the figure style shared by both papers' journal figures.
 
@@ -132,3 +141,7 @@ are set out below.
   tables in `results/agenoria/`, Figures 6, S2 and S3, and the Agenoria figures in
   `figures/exploratory/` are adaptations of these data and are
   shared under the same licence.
+- **Open Humans public data:** wearable records that Open Humans members chose to make public;
+  please cite Greshake Tzovaras et al., GigaScience 8(6):giz076 (2019), and follow the Open Humans
+  guidelines for public data (<https://www.openhumans.org/community-guidelines/#public-data>). The raw
+  files are not redistributed; `results/adult/` holds only derived, pseudonymous outputs.

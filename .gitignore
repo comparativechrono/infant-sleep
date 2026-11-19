@@ -7,3 +7,6 @@ data/*
 # intermediate arrays written by the Agenoria chart check
 results/agenoria/states_*.npy
 results/agenoria/_*.npy
+# per-night adult records built from Open Humans downloads (regenerate with analysis/adult_data.py)
+results/adult/*.npz
+results/adult/adult_screen.log

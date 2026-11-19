@@ -1,0 +1,9 @@
+adult,leg,night_index,clock_change_h,nights_on_new_clock,lag_on_arrival_h,share_moved_at_once,found_2h,found_2.5h,found_3h,found_3.5h,found_4h
+A31,arrival,212,3.0,7.0,1.95,0.348,False,False,False,False,False
+A31,return,219,-4.0,,0.88,0.781,False,False,False,False,False
+A31,arrival,604,3.0,6.0,0.33,0.891,False,False,False,False,False
+A31,return,610,-3.0,,0.29,0.904,False,False,False,False,False
+A31,arrival,757,8.0,7.0,0.7,0.913,False,False,False,False,False
+A31,return,764,-9.0,,1.64,0.818,False,False,False,False,False
+A31,arrival,925,3.0,8.0,0.93,0.691,False,False,False,False,False
+A31,return,933,-3.0,,0.61,0.796,False,False,False,False,False

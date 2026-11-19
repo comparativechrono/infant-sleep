@@ -1,0 +1,6 @@
+adult,adult_index,start_day,end_day,span_days,shift_h,type,baseline_phase_h,unlogged_days_in_3_before
+A03,2,39,41,3,4.87,round trip,2.86,2
+A03,2,929,937,9,4.51,round trip,4.92,0
+A07,6,273,275,3,-8.19,round trip,3.71,1
+A11,10,43,48,6,-7.06,round trip,3.85,1
+A11,10,1281,1285,5,8.97,round trip,5.29,3

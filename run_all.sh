@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 # Reproduce every result table and figure in this repository.
 #
-# Usage:  ./run_all.sh [path/to/infant_sleep_preprocessed.mat] [path/to/Agenoria/data]
-# Defaults: data/nyu/infant_sleep_preprocessed.mat and data/agenoria/data (see data/README.md).
+# Usage:  ./run_all.sh [path/to/infant_sleep_preprocessed.mat] [path/to/Agenoria/data] [path/to/openhumans]
+# Defaults: data/nyu/infant_sleep_preprocessed.mat, data/agenoria/data and data/openhumans (see
+# data/README.md; the Open Humans files are downloaded on the first run).
 # Takes roughly 20-40 minutes on a laptop; the periodograms of the 700 NYU infants and the
 # surrogate cohorts of the shift screen dominate.
 set -euo pipefail
@@ -47,7 +48,16 @@ $PY $A/jetlag_simulate.py "$MAT" results 30
 $PY $A/letter_numbers.py results > results/jetlag/letter_numbers.md
 $PY $A/letter_figures.py "$MAT" results figures/letter
 
+echo "== Letter: adults compared (Open Humans public data; downloads once into data/openhumans)"
+OH=${3:-data/openhumans}
+[ -f "$OH/manifest.csv" ] || $PY $A/adult_data.py download "$OH"
+$PY $A/adult_data.py build "$OH" results/adult/adult_records.npz
+$PY $A/adult_screen.py results 20 30
+$PY $A/adult_numbers.py results > results/adult/adult_numbers.md
+$PY $A/adult_figures.py results figures/letter
+
 echo "== Tests"
 $PY $A/test_nyu_rhythm.py
 $PY $A/test_nyu_timing.py
+$PY $A/test_adult_data.py
 echo "done"
